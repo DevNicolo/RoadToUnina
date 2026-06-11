@@ -1,0 +1,96 @@
+@if (error()) {
+  <div class="card error-card">
+    <strong>⚠️ Errore:</strong> {{ error() }}
+  </div>
+}
+
+@if (!currentGame()) {
+  <div class="card welcome-game-card">
+    <h3>Bentornato, {{ currentUsername() }}!</h3>
+    <h2>Pronto per la sfida?</h2>
+    <p>Esplora Wikipedia in modo strategico e raggiungi la Federico II.</p>
+    <button class="btn-primary btn-start-game" (click)="startNewGame()">
+      🚀 Inizia Nuova Partita
+    </button>
+  </div>
+}
+
+@if (currentGame()) {
+  <div class="card game-board">
+    
+    <div class="game-stats-bar">
+      <div class="stat-badges">
+        <div class="stat-badge">🎯 Obiettivo: <strong>{{ currentGame()?.target_page }}</strong></div>
+        <div class="stat-badge">👣 Passi: <strong>{{ currentGame()?.steps }}</strong></div>
+        @if (currentGame()?.status === 'playing') {
+          <div class="stat-badge">⏱️ Tempo: <strong>{{ elapsedTimeSeconds() }}s</strong></div>
+        }
+      </div>
+      
+      @if (currentGame()?.status === 'playing') {
+        <button class="btn-danger btn-abandon" (click)="abandonGame()">
+          🏳️ Abbandona
+        </button>
+      }
+    </div>
+
+    <div class="current-location">
+      <h2>📍 Ti trovi in: <span>{{ currentGame()?.current_page }}</span></h2>
+      
+      @if (currentGame()?.status === 'playing') {
+        <p class="instruction">Scegli il percorso migliore tra i link disponibili:</p>
+        
+        <div class="search-container">
+          <input 
+            type="text" 
+            [ngModel]="searchTerm()" 
+            (ngModelChange)="searchTerm.set($event)" 
+            placeholder="🔍 Cerca un collegamento..." 
+            class="search-input"
+          />
+        </div>
+
+        <div class="links-section">
+          @if (isLoadingLinks()) {
+            <div class="loading-links">
+              ⏳ Esplorazione della pagina in corso...
+            </div>
+          } @else {
+            @for (group of groupedLinks(); track group.letter) {
+              <div class="letter-group">
+                <h3>{{ group.letter }}</h3>
+                <div class="links-grid">
+                  @for (link of group.links; track link) {
+                    <button class="link-btn" (click)="goToPage(link)">{{ link }}</button>
+                  }
+                </div>
+              </div>
+            } @empty {
+              <div class="dead-end">
+                Nessun link trovato... sei in un vicolo cieco! 🛑<br><br>
+                <button class="btn-danger btn-dead-end" (click)="abandonGame()">Arrenditi</button>
+              </div>
+            }
+          }
+        </div>
+      }
+
+      @if (currentGame()?.status === 'won') {
+        <div class="victory-screen">
+          <h2>🎉 COMPLIMENTI! 🎉</h2>
+          <p class="subtitle">Hai raggiunto l'obiettivo in <strong>{{ currentGame()?.steps }}</strong> passi!</p>
+          
+          <div class="path-box">
+            <strong>Il tuo percorso epico:</strong>
+            {{ currentGame()?.path?.join(' ➔ ') }}
+          </div>
+          
+          <div class="victory-actions">
+            <button class="btn-primary" (click)="startNewGame()">Gioca di nuovo!</button>
+            <button class="btn-outline" style="border: 2px solid rgba(16, 185, 129, 0.6); color: #a7f3d0;" (click)="closeGame()">Ritorna al Menù</button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

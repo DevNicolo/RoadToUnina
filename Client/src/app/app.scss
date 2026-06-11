@@ -643,7 +643,18 @@ input {
   .form-group { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
   .auth-submit { width: 100%; padding: 15px; font-size: 1.1rem; border-radius: 12px; }
   .footer-text { margin-top: 25px; font-size: 0.9em; }
-  .footer-link { font-weight: 600; text-decoration: none; margin-left: 5px; }
+  .footer-link-btn {
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 5px;
+    background: none;
+    border: none;
+    color: #60a5fa;
+    font-size: inherit;
+    cursor: pointer;
+    padding: 0;
+    &:hover { color: #93c5fd; text-decoration: underline; }
+  }
 }
 
 .welcome-game-card {
@@ -682,3 +693,4 @@ input {
 .leaderboard-item .path-full {
   font-size: 0.8rem; padding: 8px; max-height: 60px;
 }
+.loading-links { text-align: center; color: #94a3b8; font-style: italic; padding: 40px; font-size: 1.2em; animation: pulse 1.5s infinite; } 

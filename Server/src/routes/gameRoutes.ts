@@ -55,9 +55,19 @@ router.get('/start', async (req: Request, res: Response): Promise<void> => {
     const wikiUrl = 'https://it.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnfilterredir=nonredirects&format=json';
     const response = await fetch(wikiUrl, {
       headers: {
-        'User-Agent': 'RoadToUninaApp/1.0' 
+        'User-Agent': 'RoadToUninaApp/1.0 (contact@roadtounina.it)' 
       }
     });
+    
+    if (!response.ok) {
+      const text = await response.text();
+      if (response.status === 429 || text.includes('too many requests')) {
+         res.status(429).json({ success: false, message: 'Wikipedia sta ricevendo troppe richieste. Rallenta un attimo e riprova!' });
+         return;
+      }
+      throw new Error(`Wikipedia API status: ${response.status} test: ${text}`);
+    }
+
     const data = await response.json();
     const randomPage = data.query.random[0].title;
     
@@ -83,12 +93,22 @@ router.get('/links/:title', async (req: Request, res: Response): Promise<void> =
     
     const response = await fetch(wikiUrl, {
       headers: {
-        'User-Agent': 'RoadToUninaApp/1.0' 
+        'User-Agent': 'RoadToUninaApp/1.0 (contact@roadtounina.it)' 
       }
     });
+    
+    if (!response.ok) {
+      const text = await response.text();
+      if (response.status === 429 || text.includes('too many requests')) {
+         res.status(429).json({ success: false, message: 'Wikipedia sta ricevendo troppe richieste. Rallenta un attimo e riprova!' });
+         return;
+      }
+      throw new Error(`Wikipedia API status: ${response.status} test: ${text}`);
+    }
+
     const data = await response.json();
     
-    const pages = data.query.pages;
+    const pages = data.query?.pages;
     const pageId = Object.keys(pages)[0]; 
     
     if (!pages[pageId].links) {

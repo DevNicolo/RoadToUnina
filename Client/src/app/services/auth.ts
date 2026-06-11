@@ -1,11 +1,17 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     private apiUrl = 'http://192.168.1.235:3000/api';
     private http = inject(HttpClient);
+
+    authStatus = new BehaviorSubject<boolean>(this.hasToken());
+
+    private hasToken(): boolean {
+        return !!localStorage.getItem('token');
+    }
 
     register(username: string, password: string): Observable<{ success: boolean; message: string; token?: string }> {
         return this.http.post<{ success: boolean; message: string; token?: string }>(`${this.apiUrl}/register`, { username, password })
@@ -13,6 +19,7 @@ export class AuthService {
                 if (res.success && res.token) {
                     localStorage.setItem('token', res.token);
                     localStorage.setItem('username', username);
+                    this.authStatus.next(true);
                 }
             }));
     }
@@ -23,6 +30,7 @@ export class AuthService {
                 if (res.success && res.token) {
                     localStorage.setItem('token', res.token);
                     localStorage.setItem('username', username);
+                    this.authStatus.next(true);
                 }
             }));
     }
@@ -30,10 +38,11 @@ export class AuthService {
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
+        this.authStatus.next(false);
     }
 
     isLoggedIn(): boolean {
-        return !!localStorage.getItem('token');
+        return this.authStatus.value;
     }
 
     getUsername(): string | null {

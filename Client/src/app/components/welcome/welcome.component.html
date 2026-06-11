@@ -1,0 +1,53 @@
+<div class="hero-section">
+  <h1 class="hero-title">Road To <span class="text-gradient navbar-brand-text">Unina</span></h1>
+  <p class="hero-subtitle">
+    Riuscirai a raggiungere l'Università Federico II partendo da una pagina casuale di Wikipedia?
+  </p>
+  <div class="hero-buttons">
+    <button class="btn-primary btn-large" (click)="playAction()">
+      {{ isLoggedIn() ? 'Gioca Ora 🚀' : 'Inizia a Giocare 🚀' }}
+    </button>
+  </div>
+</div>
+
+<div class="recent-games-container">
+  <h3 class="section-title">Partite Recenti</h3>
+  <div class="recent-grid">
+    @for (game of recentGames(); track game) {
+      <div class="recent-card">
+        <div class="recent-card-header">
+          <div class="player-avatar" [style.background]="game.status === 'abandoned' ? 'linear-gradient(135deg, #ef4444, #991b1b)' : 'linear-gradient(135deg, #a855f7, #ec4899)'">
+            {{ game.username.charAt(0).toUpperCase() }}
+          </div>
+          <div class="player-info">
+            <strong>{{ game.username }}</strong>
+            <span class="time">
+              @if (game.status === 'won') {
+                <span class="status-won">👑 Vittoria in</span>
+              } @else {
+                <span class="status-lost">💀 Persa in</span>
+              }
+              {{ (game.total_time_ms / 1000).toFixed(1) }}s
+            </span>
+          </div>
+          <div class="badge-steps" [style.background]="game.status === 'abandoned' ? 'rgba(239, 68, 68, 0.2)' : null" [style.color]="game.status === 'abandoned' ? '#fca5a5' : null">
+            {{ game.steps }} passi
+          </div>
+        </div>
+        <div class="recent-card-body">
+          <div class="path-full">
+            <strong class="path-label">Percorso:</strong>
+            {{ game.path?.join(' ➔ ') }}
+            @if (game.status === 'abandoned') {
+              <span class="path-abandoned-x"> ➔ ❌</span>
+            }
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        Nessuna partita recente. Sii il primo a giocare!
+      </div>
+    }
+  </div>
+</div>

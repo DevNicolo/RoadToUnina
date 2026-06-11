@@ -1,0 +1,26 @@
+@if (error()) {
+  <div class="card error-card">
+    <strong>⚠️ Errore:</strong> {{ error() }}
+  </div>
+}
+
+<div class="card auth-card">
+  <h2>{{ isRegister() ? 'Crea un Account' : 'Bentornato!' }}</h2>
+  <p class="subtitle">{{ isRegister() ? 'Unisciti alla sfida epica.' : 'Accedi per continuare la tua scalata.' }}</p>
+  
+  <div class="form-group">
+    <input type="text" [(ngModel)]="usernameInput" placeholder="Username" />
+    <input type="password" [(ngModel)]="passwordInput" placeholder="Password" />
+  </div>
+  
+  <button class="btn-primary auth-submit" (click)="submitAuth()">
+    {{ isRegister() ? 'Registrati' : 'Entra nel Gioco' }}
+  </button>
+  
+  <p class="footer-text">
+    {{ isRegister() ? 'Hai già un account?' : 'Non hai un account?' }}
+    <button (click)="toggleRegister()" class="footer-link-btn">
+      {{ isRegister() ? 'Accedi qui' : 'Registrati ora' }}
+    </button>
+  </p>
+</div>
