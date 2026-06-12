@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
-    private apiUrl = 'http://192.168.1.235:3000/api/game';
+    private apiUrl = `${environment.apiUrl}/game`;
     private http = inject(HttpClient);
 
     private getAuthHeaders() {

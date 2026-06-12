@@ -8,7 +8,8 @@ import { AuthService } from '../../services/auth';
   selector: 'app-game',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './game.component.html'
+  templateUrl: './game.component.html',
+  styleUrl: './game.component.scss'
 })
 export class GameComponent implements OnInit {
   private gameService = inject(GameService);

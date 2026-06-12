@@ -6,7 +6,8 @@ import { AuthService } from '../../services/auth';
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  templateUrl: './welcome.component.html'
+  templateUrl: './welcome.component.html',
+  styleUrl: './welcome.component.scss'
 })
 export class WelcomeComponent implements OnInit {
   private gameService = inject(GameService);

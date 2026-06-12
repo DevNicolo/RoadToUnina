@@ -1,0 +1,26 @@
+/* Auth Cards */
+.auth-card {
+  max-width: 400px;
+  margin: 40px auto;
+  text-align: center;
+  h2 { color: #f8fafc; margin-top: 0; font-size: 2rem; }
+  p { color: #94a3b8; }
+  a { color: #60a5fa; &:hover { color: #93c5fd; } }
+  
+  .subtitle { margin-bottom: 30px; }
+  .form-group { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
+  .auth-submit { width: 100%; padding: 15px; font-size: 1.1rem; border-radius: 12px; }
+  .footer-text { margin-top: 25px; font-size: 0.9em; }
+  .footer-link-btn {
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 5px;
+    background: none;
+    border: none;
+    color: #60a5fa;
+    font-size: inherit;
+    cursor: pointer;
+    padding: 0;
+    &:hover { color: #93c5fd; text-decoration: underline; }
+  }
+}

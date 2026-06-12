@@ -7,7 +7,8 @@ import { AuthService } from '../../services/auth';
   selector: 'app-auth',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './auth.component.html'
+  templateUrl: './auth.component.html',
+  styleUrl: './auth.component.scss'
 })
 export class AuthComponent implements OnInit {
   private authService = inject(AuthService);

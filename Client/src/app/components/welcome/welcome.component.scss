@@ -1,0 +1,116 @@
+/* Landing Page Hero */
+.hero-section {
+  text-align: center;
+  padding: 60px 20px;
+
+  .hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin: 0 0 20px 0;
+    line-height: 1.1;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    color: #94a3b8;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+  }
+
+  .btn-large {
+    font-size: 1.2rem;
+    padding: 18px 40px;
+    border-radius: 50px;
+  }
+}
+
+/* Recent Games Grid */
+.recent-games-container {
+  margin-top: 40px;
+  
+  .section-title {
+    font-size: 1.5rem;
+    color: #f8fafc;
+    margin-bottom: 25px;
+    padding-left: 10px;
+    border-left: 4px solid #3b82f6;
+  }
+
+  .recent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .recent-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .recent-card-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+
+      .player-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: white;
+      }
+
+      .player-info {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        strong { color: #f8fafc; font-size: 1.1rem; }
+        .time { color: #94a3b8; font-size: 0.85rem; }
+      }
+
+      .badge-steps {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 30px 10px;
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+    .btn-large {
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      width: 100%;
+    }
+  }
+
+  .recent-card-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+}
