@@ -1,10 +1,10 @@
 # ==========================================
-# DIPENDENZE (Fondamentali da escludere)
+# DIPENDENZE
 # ==========================================
 node_modules/
 
 # ==========================================
-# BUILD E CACHE (Angular & Node.js)
+# BUILD E CACHE
 # ==========================================
 # Output di build di Angular
 /Client/dist/
@@ -33,7 +33,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # ==========================================
-# FILE DI SISTEMA E IDE (VS Code, Mac, Windows)
+# FILE DI SISTEMA E IDE
 # ==========================================
 .DS_Store
 Thumbs.db
