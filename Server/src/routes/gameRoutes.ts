@@ -5,7 +5,6 @@ import db from '../database/postgres';
 
 const router = Router();
 
-// Endpoint per la cronologia (Pubblico, ultime 100 partite)
 router.get('/recent', async (req: Request, res: Response): Promise<void> => {
   try {
     const recentGames = await db.getRecentGames();
@@ -19,7 +18,6 @@ router.get('/recent', async (req: Request, res: Response): Promise<void> => {
 // Rotte protette da autenticazione JWT
 router.use(authenticateJWT);
 
-// Endpoint per la classifica (Privato)
 router.get('/leaderboard', async (req: Request, res: Response): Promise<void> => {
   try {
     const leaderboard = await db.getLeaderboard();
@@ -30,7 +28,6 @@ router.get('/leaderboard', async (req: Request, res: Response): Promise<void> =>
   }
 });
 
-// Endpoint per recuperare la partita in corso
 router.get('/current', async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = (req as AuthRequest).user.userId;
@@ -47,7 +44,6 @@ router.get('/current', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-// Endpoint per avviare la partita (sarà mimetizzato sotto /api/game)
 router.get('/start', async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = (req as AuthRequest).user.userId;
@@ -55,7 +51,7 @@ router.get('/start', async (req: Request, res: Response): Promise<void> => {
     const wikiUrl = 'https://it.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnfilterredir=nonredirects&format=json';
     const response = await fetch(wikiUrl, {
       headers: {
-        'User-Agent': 'RoadToUninaApp/1.0 (contact@roadtounina.it)' 
+        'User-Agent': 'RoadToUninaApp/1.0' 
       }
     });
     
@@ -84,7 +80,6 @@ router.get('/start', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-// Endpoint per ottenere i link di una specifica pagina
 router.get('/links/:title', async (req: Request, res: Response): Promise<void> => {
   try {
     const title = encodeURIComponent(req.params.title as string);
@@ -93,7 +88,7 @@ router.get('/links/:title', async (req: Request, res: Response): Promise<void> =
     
     const response = await fetch(wikiUrl, {
       headers: {
-        'User-Agent': 'RoadToUninaApp/1.0 (contact@roadtounina.it)' 
+        'User-Agent': 'RoadToUninaApp/1.0' 
       }
     });
     
@@ -126,7 +121,6 @@ router.get('/links/:title', async (req: Request, res: Response): Promise<void> =
   }
 });
 
-// Endpoint per registrare una mossa
 router.post('/move', async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = (req as AuthRequest).user.userId;
@@ -158,7 +152,6 @@ router.post('/move', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-// Endpoint per abbandonare la partita
 router.post('/abandon', async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = (req as AuthRequest).user.userId;

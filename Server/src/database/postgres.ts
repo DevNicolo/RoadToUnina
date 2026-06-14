@@ -1,7 +1,6 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
-// Carica le variabili dal file .env
 dotenv.config();
 
 const pool = new Pool({
@@ -16,10 +15,6 @@ pool.on('error', (err, client) => {
   console.error('Errore inaspettato nel pool di connessione a PostgreSQL:', err);
 });
 
-// ==========================================
-// METODI PER USERS
-// ==========================================
-
 export const findUserByUsername = async (username: string) => {
   const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
   return result.rows[0];
@@ -33,9 +28,9 @@ export const createUser = async (username: string, passwordHash: string) => {
   return result.rows[0];
 };
 
-// ==========================================
-// METODI PER GAME SESSIONS
-// ==========================================
+
+
+// Game
 
 export const createGameSession = async (userId: string, currentPage: string, targetPage: string, path: string[], startTime: number) => {
   const result = await pool.query(
@@ -82,12 +77,24 @@ export const abandonGameSession = async (gameId: string, userId: string) => {
 
 export const getLeaderboard = async () => {
   const result = await pool.query(
-    `SELECT u.username, g.steps, g.path, 
-            ROUND(EXTRACT(EPOCH FROM g.last_updated) * 1000 - g.start_time) as total_time_ms
-     FROM game_sessions g
-     JOIN users u ON g.user_id = u.id
-     WHERE g.status = 'won'
-     ORDER BY g.steps ASC, total_time_ms ASC
+    `WITH user_stats AS (
+         SELECT user_id, COUNT(id) AS games_won, MIN(steps) AS best_steps
+         FROM game_sessions
+         WHERE status = 'won'
+         GROUP BY user_id
+     ),
+     best_games AS (
+         SELECT DISTINCT ON (user_id) user_id, steps, path, 
+                ROUND(EXTRACT(EPOCH FROM last_updated) * 1000 - start_time) as total_time_ms
+         FROM game_sessions
+         WHERE status = 'won'
+         ORDER BY user_id, steps ASC, ROUND(EXTRACT(EPOCH FROM last_updated) * 1000 - start_time) ASC
+     )
+     SELECT u.username, bg.steps, bg.path, bg.total_time_ms, us.games_won
+     FROM user_stats us
+     JOIN best_games bg ON us.user_id = bg.user_id
+     JOIN users u ON us.user_id = u.id
+     ORDER BY bg.steps ASC, us.games_won DESC, bg.total_time_ms ASC
      LIMIT 10`
   );
   return result.rows;

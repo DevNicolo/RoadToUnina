@@ -6,7 +6,6 @@ import db from '../database/postgres';
 
 const router = Router();
 
-// Endpoint per la registrazione (Pubblico)
 router.post('/register', async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, password } = req.body;
@@ -35,7 +34,6 @@ router.post('/register', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-// Endpoint per il login (Pubblico)
 router.post('/login', async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, password } = req.body;

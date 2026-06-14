@@ -20,14 +20,6 @@ export class App implements OnInit {
   showLeaderboard = signal<boolean>(false);
   leaderboardData = signal<any[]>([]);
 
-  constructor() {
-    effect(() => {
-      // Sync the signal with the auth service status automatically
-      // Note: non-reactive in effect, but we can subscribe instead.
-      // Wait, we can't use an effect on a BehaviorSubject directly unless we use toSignal.
-    });
-  }
-
   ngOnInit() {
     this.authService.authStatus.subscribe(status => {
       this.isLoggedIn.set(status);

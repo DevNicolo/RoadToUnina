@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('should register a new user successfully', async ({ page }) => {
-  const uniqueUsername = `Luigi_${Date.now()}`;
+  const uniqueUsername = `P_${Date.now()}`;
   
   await page.goto('http://192.168.1.235:4200/welcome');
   await page.getByRole('button', { name: 'Registrati' }).click();

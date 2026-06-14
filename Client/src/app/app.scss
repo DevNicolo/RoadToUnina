@@ -277,9 +277,7 @@ input {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* ========================================= */
-/* Responsive & Mobile Design                */
-/* ========================================= */
+// Mobile Design
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -322,9 +320,7 @@ input {
   }
 }
 
-/* ========================================= */
-/* Refactored Inline Styles                  */
-/* ========================================= */
+// Refactored Inline Styles
 .navbar-brand-text { margin-left: 5px; }
 .empty-leaderboard { text-align: center; color: #94a3b8; padding: 20px; }
 

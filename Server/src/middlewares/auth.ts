@@ -8,23 +8,17 @@ export interface AuthRequest extends Request {
   user?: any;
 }
 
-/**
- * Generate a new JWT token
- */
+// Generate 
 export const generateToken = (payload: object, expiresIn: string | number = '1d') => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: expiresIn as any });
 };
 
-/**
- * Verify JWT token
- */
+// Verify
 export const verifyToken = (token: string) => {
   return jwt.verify(token, JWT_SECRET);
 };
 
-/**
- * Express middleware to authenticate requests
- */
+// Auth
 export const authenticateJWT = (req: AuthRequest, res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
 
